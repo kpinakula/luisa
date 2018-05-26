@@ -1,0 +1,17 @@
+{
+    "parser": "babel-eslint",
+    "extends": [
+        "standard",
+        "standard-react"
+    ],
+    "plugins": [
+        "react",
+        "import"
+    ],
+    "rules": {
+        "jsx-quotes": [
+            "error",
+            "prefer-double"
+        ]
+    }
+}
