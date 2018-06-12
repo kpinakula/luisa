@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 class Dashboard extends Component {
   constructor (props) {
     super(props)
+
     this.state = {
       resources: []
     }
@@ -14,16 +15,23 @@ class Dashboard extends Component {
 
   componentDidMount () {
     const databaseRef = this.props.database.collection('resources')
-    databaseRef.get()
-      .then(snapshot => {
-        const resources = snapshot.docs.map(document => document.data())
-        this.setState({ resources })
-      })
+    databaseRef.onSnapshot(snapshot => {
+      const resources = snapshot.docs
+      this.setState({ resources })
+    })
+  }
+
+  componentWillUnmount () {
+    const unsubscribe = this.props.database
+      .collection('resources')
+      .onSnapshot(() => {})
+
+    unsubscribe()
   }
 
   renderResources () {
     return this.state.resources.map((resource, index) => {
-      return <li key={index}>{resource.name}</li>
+      return <li key={index}>{resource.data().name}</li>
     })
   }
 
@@ -43,6 +51,7 @@ class Dashboard extends Component {
       reader.onerror = () => console.log('file reading has failed')
 
       reader.readAsText(file)
+      console.log(new Date(file.lastModified))
     })
   }
 
@@ -50,9 +59,9 @@ class Dashboard extends Component {
     return (
       <div>
         <Dropzone onDrop={this.onDrop} />
-        <ul>
-          {this.renderResources()}
-        </ul>
+        {this.state.resources.length
+          ? <ul>{this.renderResources()}</ul>
+          : <div>Loading ...</div>}
       </div>
     )
   }
