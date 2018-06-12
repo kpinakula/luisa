@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
 
 class Dashboard extends Component {
@@ -7,6 +8,8 @@ class Dashboard extends Component {
     this.state = {
       resources: []
     }
+
+    this.onDrop = this.onDrop.bind(this)
   }
 
   componentDidMount () {
@@ -24,11 +27,33 @@ class Dashboard extends Component {
     })
   }
 
+  onDrop (acceptedFiles) {
+    acceptedFiles.forEach(file => {
+      const reader = new window.FileReader()
+      reader.onload = () => {
+        this.props.database
+          .collection('resources')
+          .doc(file.name)
+          .set({
+            content: reader.result,
+            name: file.name
+          })
+      }
+      reader.onabort = () => console.log('file reading was aborted')
+      reader.onerror = () => console.log('file reading has failed')
+
+      reader.readAsText(file)
+    })
+  }
+
   render () {
     return (
-      <ul>
-        {this.renderResources()}
-      </ul>
+      <div>
+        <Dropzone onDrop={this.onDrop} />
+        <ul>
+          {this.renderResources()}
+        </ul>
+      </div>
     )
   }
 }
