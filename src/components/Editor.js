@@ -17,7 +17,7 @@ class Editor extends Component {
     const databaseRef = this.props.database.collection('resources').doc('Acknowledgements.html')
     databaseRef.get()
       .then(doc => {
-        const content = doc.data().content
+        const { content } = doc.data()
         this.setState({content})
       })
   }
