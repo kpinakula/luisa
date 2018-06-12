@@ -6,8 +6,8 @@ import 'codemirror/lib/codemirror.css'
 import './editor.less'
 
 class Editor extends Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       content: 'hello'
     }
