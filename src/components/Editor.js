@@ -9,24 +9,39 @@ class Editor extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      content: 'hello'
+      originalContent: '',
+      translatedContent: ''
     }
   }
 
   componentDidMount () {
-    const databaseRef = this.props.database.collection('resources').doc('Acknowledgements.html')
+    const databaseRef = this.props.database.collection('resources').doc(`I'm a New Mother_1.html`)
     databaseRef.get()
       .then(doc => {
         const { content } = doc.data()
-        this.setState({content})
+        this.setState({
+          originalContent: content,
+          translatedContent: content
+        })
       })
   }
 
   render () {
     return (
       <div className="editor-container">
-        <CodeMirror className="editor" ref="editor" value={this.state.content} options={{lineWrapping: true, lineNumbers: true}} />
-        <CodeMirror className="editor" ref="editor" value={this.state.content} options={{lineWrapping: true, lineNumbers: true}} />
+        <CodeMirror
+          className="editor"
+          ref="editor"
+          value={this.state.originalContent}
+          options={{lineWrapping: true, lineNumbers: true}}
+        />
+        <CodeMirror
+          className="editor"
+          ref="editor"
+          value={this.state.translatedContent}
+          options={{lineWrapping: true, lineNumbers: true}}
+          onBeforeChange={(editor, data, value) => this.setState({translatedContent: value})}
+        />
       </div>
     )
   }
