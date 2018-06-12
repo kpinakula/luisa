@@ -10,9 +10,10 @@
     "start": "webpack-dev-server --open"
   },
   "dependencies": {
+    "codemirror": "^5.38.0",
     "firebase": "^5.0.4",
     "react": "^16.4.0",
-    "react-codemirror": "^1.0.0",
+    "react-codemirror2": "^5.0.4",
     "react-dom": "^16.4.0",
     "react-router-dom": "^4.2.2"
   },

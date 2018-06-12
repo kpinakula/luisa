@@ -13,11 +13,12 @@ class App extends Component {
   }
 
   render () {
+    const { firestore } = firebase
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" render={() => <Dashboard database={firebase.firestore()} />} />
-          <Route exact path="/editor" component={Editor} />
+          <Route exact path="/" render={() => <Dashboard database={firestore()} />} />
+          <Route exact path="/editor" render={() => <Editor database={firestore()} />} />
           <Route render={() => <div>Where is Luisa? 🐶</div>} />
         </Switch>
       </BrowserRouter>
