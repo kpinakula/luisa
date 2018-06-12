@@ -18,10 +18,10 @@ class Editor extends Component {
     const databaseRef = this.props.database.collection('resources').doc(`I'm a New Mother_1.html`)
     databaseRef.get()
       .then(doc => {
-        const { content } = doc.data()
+        const { originalContent, translatedContent } = doc.data()
         this.setState({
-          originalContent: content,
-          translatedContent: content
+          originalContent,
+          translatedContent
         })
       })
   }

@@ -43,15 +43,16 @@ class Dashboard extends Component {
           .collection('resources')
           .doc(file.name)
           .set({
-            content: reader.result,
-            name: file.name
+            name: file.name,
+            originalContent: reader.result,
+            translatedContent: reader.result,
+            lastModified: file.lastModified
           })
       }
       reader.onabort = () => console.log('file reading was aborted')
       reader.onerror = () => console.log('file reading has failed')
 
       reader.readAsText(file)
-      console.log(new Date(file.lastModified))
     })
   }
 
