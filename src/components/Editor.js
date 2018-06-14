@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import PropTypes from 'prop-types'
+import ActionBar from './ActionBar'
 
 import 'codemirror/lib/codemirror.css'
 import './editor.less'
@@ -11,19 +12,23 @@ class Editor extends Component {
     this.state = {
       originalContent: '',
       translatedContent: '',
-      updatedContent: ''
+      updatedContent: '',
+      markedAsComplete: false
     }
-    console.log(this.props)
+    this.handleSave = this.handleSave.bind(this)
+    this.handleComplete = this.handleComplete.bind(this)
   }
 
   componentDidMount () {
     const databaseRef = this.props.database.collection('resources').doc(this.props.id)
     databaseRef.get()
       .then(doc => {
-        const { originalContent, translatedContent } = doc.data()
+        const { originalContent, translatedContent, markedAsComplete } = doc.data()
         this.setState({
           originalContent,
-          translatedContent})
+          translatedContent,
+          markedAsComplete
+        })
       })
   }
 
@@ -51,6 +56,29 @@ class Editor extends Component {
     }
   }
 
+  handleSave () {
+    this.props.database
+      .collection('resources')
+      .doc(this.props.id)
+      .update({
+        translatedContent: this.state.updatedContent
+      })
+    console.log('You are saved')
+  }
+
+  handleComplete () {
+    this.setState(prevState => {
+      return {markedAsComplete: !prevState.markedAsComplete}
+    }, () => {
+      this.props.database
+        .collection('resources')
+        .doc(this.props.id)
+        .update({
+          markedAsComplete: this.state.markedAsComplete
+        })
+    })
+  }
+
   render () {
     if (!this.state.originalContent && !this.state.translatedContent) {
       return null
@@ -58,14 +86,12 @@ class Editor extends Component {
 
     return (
       <div className="editor-container">
-        <button onClick={() => {
-          this.props.database
-            .collection('resources')
-            .doc('test.html')
-            .update({
-              translatedContent: this.state.updatedContent
-            })
-        }}>Save</button>
+        <ActionBar
+          documentId={this.props.id}
+          handleSave={this.handleSave}
+          markedAsComplete={this.state.markedAsComplete}
+          handleComplete={this.handleComplete}
+        />
         <CodeMirror
           className="editor"
           value={this.state.originalContent}
