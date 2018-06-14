@@ -46,6 +46,7 @@ class Workspace extends Component {
           endTagIndices.push(x + 1)
         }
       }
+
       openTagIndices.map((openTagIndex, index) => {
         codeMirror.markText({line: i, ch: openTagIndex}, {line: i, ch: endTagIndices[index]}, {
           readOnly: true,
@@ -53,6 +54,32 @@ class Workspace extends Component {
           atomic: true
         })
       })
+    }
+  }
+
+  hideStyleTag (editor) {
+    const lineCount = editor.lineCount()
+    const start = {}
+    const end = {}
+
+    for (let i = 0; i < lineCount; i++) {
+      const lineContent = editor.getLine(i)
+      const openStyleTagIndex = lineContent.indexOf('<style')
+      const endStyleTagIndex = lineContent.indexOf('</style>')
+
+      if (openStyleTagIndex > -1) {
+        start.line = i
+        start.ch = openStyleTagIndex
+      }
+
+      if (endStyleTagIndex > -1) {
+        end.line = i
+        end.ch = endStyleTagIndex + 8
+      }
+    }
+
+    if (start.line && end.line) {
+      editor.markText(start, end, {collapsed: true})
     }
   }
 
@@ -99,7 +126,11 @@ class Workspace extends Component {
             <CodeMirror
               className="editor"
               value={this.state.originalContent}
-              options={{lineWrapping: true, lineNumbers: true}}
+              editorDidMount={editor => {
+                this.applyReadOnly(editor)
+                this.hideStyleTag(editor)
+              }}
+              options={{lineWrapping: true, lineNumbers: true, readOnly: true}}
             />
           </div>
           <div className="editor-container">
@@ -107,7 +138,10 @@ class Workspace extends Component {
             <CodeMirror
               className="editor"
               value={this.state.translatedContent || this.state.originalContent}
-              editorDidMount={editor => this.applyReadOnly(editor)}
+              editorDidMount={editor => {
+                this.applyReadOnly(editor)
+                this.hideStyleTag(editor)
+              }}
               options={{lineWrapping: true, lineNumbers: true, readOnly: this.state.markedAsComplete}}
               onChange={(editor, data, value) => {
                 this.setState({updatedContent: value})
