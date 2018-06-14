@@ -18,6 +18,11 @@ class Dashboard extends Component {
     const databaseRef = this.props.database.collection('resources')
     databaseRef.onSnapshot(snapshot => {
       const resources = snapshot.docs
+        .sort((a, b) => {
+          const options = {numeric: true, sensitivity: 'base'}
+          return a.data().name.localeCompare(b.data().name, undefined, options)
+        })
+
       this.setState({ resources })
     })
   }
