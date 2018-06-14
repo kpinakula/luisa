@@ -39,15 +39,16 @@ class Dashboard extends Component {
     acceptedFiles.forEach(file => {
       const reader = new window.FileReader()
       reader.onload = () => {
-        this.props.database
+        const newDocument = this.props.database
           .collection('resources')
-          .doc(file.name)
-          .set({
-            name: file.name,
-            originalContent: reader.result,
-            translatedContent: reader.result,
-            lastModified: file.lastModified
-          })
+          .doc()
+
+        newDocument.set({
+          name: file.name,
+          originalContent: reader.result,
+          lastModified: file.lastModified,
+          url: `/editor/${newDocument.id}`
+        })
       }
       reader.onabort = () => console.log('file reading was aborted')
       reader.onerror = () => console.log('file reading has failed')
