@@ -1,0 +1,35 @@
+.workspace-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .action-bar {
+    flex: 5% 0 0;
+  }
+
+  .editors {
+    display: flex;
+    flex: 95% 0 0;
+
+    .editor-container {
+      display: flex;
+      flex-direction: column;
+      flex: 1 0 0;
+
+      .editor-title {
+        flex: 5% 0 0;
+      }
+
+      .editor {
+        display: flex;
+        flex: 85% 0 0;
+
+        > * {
+          height: auto;
+        }
+      }
+    }
+  }
+}

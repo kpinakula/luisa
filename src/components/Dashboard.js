@@ -57,7 +57,7 @@ class Dashboard extends Component {
           name: file.name,
           originalContent: reader.result,
           lastModified: file.lastModified,
-          url: `/editor/${newDocument.id}`
+          url: `/workspace/${newDocument.id}`
         })
       }
       reader.onabort = () => console.log('file reading was aborted')

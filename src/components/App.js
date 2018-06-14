@@ -4,7 +4,7 @@ import firebase from 'firebase'
 
 import { firebaseConfig } from '../../secrets'
 import Dashboard from './Dashboard'
-import Editor from './Editor'
+import Workspace from './Workspace'
 
 class App extends Component {
   constructor () {
@@ -18,7 +18,7 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" render={() => <Dashboard database={firestore()} />} />
-          <Route path="/editor/:id" render={(props) => <Editor id={props.match.params.id} database={firestore()} />} />
+          <Route path="/workspace/:id" render={(props) => <Workspace documentId={props.match.params.id} database={firestore()} />} />
           <Route render={() => <div>Where is Luisa? 🐶</div>} />
         </Switch>
       </BrowserRouter>

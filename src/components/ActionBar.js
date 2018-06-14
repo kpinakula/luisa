@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 function ActionBar (props) {
   return (
-    <div className="editor-button-bar">
+    <div className="action-bar">
       <button onClick={props.handleSave}>Save</button>
       <label>Mark as complete
         <input type="checkbox" checked={props.markedAsComplete} onChange={props.handleComplete} />

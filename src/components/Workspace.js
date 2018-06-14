@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import ActionBar from './ActionBar'
 
 import 'codemirror/lib/codemirror.css'
-import './editor.less'
+import './workspace.less'
 
-class Editor extends Component {
+class Workspace extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -20,7 +20,7 @@ class Editor extends Component {
   }
 
   componentDidMount () {
-    const databaseRef = this.props.database.collection('resources').doc(this.props.id)
+    const databaseRef = this.props.database.collection('resources').doc(this.props.documentId)
     databaseRef.get()
       .then(doc => {
         const { originalContent, translatedContent, markedAsComplete } = doc.data()
@@ -59,7 +59,7 @@ class Editor extends Component {
   handleSave () {
     this.props.database
       .collection('resources')
-      .doc(this.props.id)
+      .doc(this.props.documentId)
       .update({
         translatedContent: this.state.updatedContent
       })
@@ -72,7 +72,7 @@ class Editor extends Component {
     }, () => {
       this.props.database
         .collection('resources')
-        .doc(this.props.id)
+        .doc(this.props.documentId)
         .update({
           markedAsComplete: this.state.markedAsComplete
         })
@@ -85,35 +85,44 @@ class Editor extends Component {
     }
 
     return (
-      <div className="editor-container">
+      <div className="workspace-container">
         <ActionBar
-          documentId={this.props.id}
+          className="action-bar"
+          documentId={this.props.documentId}
           handleSave={this.handleSave}
           markedAsComplete={this.state.markedAsComplete}
           handleComplete={this.handleComplete}
         />
-        <CodeMirror
-          className="editor"
-          value={this.state.originalContent}
-          options={{lineWrapping: true, lineNumbers: true}}
-        />
-        <CodeMirror
-          className="editor"
-          value={this.state.translatedContent || this.state.originalContent}
-          editorDidMount={editor => this.applyReadOnly(editor)}
-          options={{lineWrapping: true, lineNumbers: true, readOnly: this.state.markedAsComplete}}
-          onChange={(editor, data, value) => {
-            this.setState({updatedContent: value})
-          }}
-        />
+        <div className="editors">
+          <div className="editor-container">
+            <h3 className="editor-title">ORIGINAL</h3>
+            <CodeMirror
+              className="editor"
+              value={this.state.originalContent}
+              options={{lineWrapping: true, lineNumbers: true}}
+            />
+          </div>
+          <div className="editor-container">
+            <h3 className="editor-title">TRANSLATION</h3>
+            <CodeMirror
+              className="editor"
+              value={this.state.translatedContent || this.state.originalContent}
+              editorDidMount={editor => this.applyReadOnly(editor)}
+              options={{lineWrapping: true, lineNumbers: true, readOnly: this.state.markedAsComplete}}
+              onChange={(editor, data, value) => {
+                this.setState({updatedContent: value})
+              }}
+            />
+          </div>
+        </div>
       </div>
     )
   }
 }
 
-Editor.propTypes = {
+Workspace.propTypes = {
   database: PropTypes.object.isRequired,
-  id: PropTypes.string.isRequired
+  documentId: PropTypes.string.isRequired
 }
 
-export default Editor
+export default Workspace
