@@ -40,9 +40,15 @@ class Dashboard extends Component {
       return (
         <li key={index}>
           <Link to={{pathname: resource.data().url}}>{resource.data().name}</Link>
+          <button onClick={() => this.deleteDocument(resource.id)}>Delete</button>
         </li>
       )
     })
+  }
+
+  deleteDocument (id) {
+    const databaseRef = this.props.database.collection('resources')
+    databaseRef.doc(id).delete()
   }
 
   onDrop (acceptedFiles) {
