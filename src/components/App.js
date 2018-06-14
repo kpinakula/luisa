@@ -18,7 +18,7 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" render={() => <Dashboard database={firestore()} />} />
-          <Route exact path="/editor" render={() => <Editor database={firestore()} />} />
+          <Route path="/editor/:id" render={(props) => <Editor id={props.match.params.id} database={firestore()} />} />
           <Route render={() => <div>Where is Luisa? 🐶</div>} />
         </Switch>
       </BrowserRouter>

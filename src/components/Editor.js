@@ -13,10 +13,11 @@ class Editor extends Component {
       translatedContent: '',
       updatedContent: ''
     }
+    console.log(this.props)
   }
 
   componentDidMount () {
-    const databaseRef = this.props.database.collection('resources').doc(`I'm a New Mother_1.html`)
+    const databaseRef = this.props.database.collection('resources').doc(this.props.id)
     databaseRef.get()
       .then(doc => {
         const { originalContent, translatedContent } = doc.data()
@@ -85,7 +86,8 @@ class Editor extends Component {
 }
 
 Editor.propTypes = {
-  database: PropTypes.object.isRequired
+  database: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired
 }
 
 export default Editor

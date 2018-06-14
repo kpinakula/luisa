@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 class Dashboard extends Component {
   constructor (props) {
@@ -31,7 +32,11 @@ class Dashboard extends Component {
 
   renderResources () {
     return this.state.resources.map((resource, index) => {
-      return <li key={index}>{resource.data().name}</li>
+      return (
+        <li key={index}>
+          <Link to={{pathname: resource.data().url}}>{resource.data().name}</Link>
+        </li>
+      )
     })
   }
 
