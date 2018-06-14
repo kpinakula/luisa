@@ -101,7 +101,7 @@ class Editor extends Component {
           className="editor"
           value={this.state.translatedContent || this.state.originalContent}
           editorDidMount={editor => this.applyReadOnly(editor)}
-          options={{lineWrapping: true, lineNumbers: true}}
+          options={{lineWrapping: true, lineNumbers: true, readOnly: this.state.markedAsComplete}}
           onChange={(editor, data, value) => {
             this.setState({updatedContent: value})
           }}
