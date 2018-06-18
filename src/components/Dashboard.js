@@ -37,7 +37,7 @@ class Dashboard extends Component {
 
   renderResources () {
     return this.state.resources.map((resource, index) => {
-      const { url, name, lastModified } = resource.data()
+      const { url, name, lastModified, markedAsComplete } = resource.data()
       console.log('last modified on server:', new Date(resource._document.version.timestamp.seconds * 1000).toLocaleString())
 
       return (
@@ -49,6 +49,9 @@ class Dashboard extends Component {
           <div>
             Translation last updated: {new Date(resource._document.version.timestamp.seconds * 1000).toLocaleString()}
           </div>
+          {markedAsComplete
+            ? <div>Marked as Complete: 👌</div>
+            : null}
           <button onClick={() => this.deleteDocument(resource.id)}>Delete</button>
         </li>
       )
