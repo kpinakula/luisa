@@ -37,8 +37,15 @@ class Dashboard extends Component {
 
   renderResources () {
     return this.state.resources.map((resource, index) => {
-      const { url, name, lastModified, markedAsComplete } = resource.data()
-      console.log('last modified on server:', new Date(resource._document.version.timestamp.seconds * 1000).toLocaleString())
+      const {
+        url,
+        name,
+        lastModified,
+        translatedContent,
+        markedAsComplete
+      } = resource.data()
+      const lastTranslated = new Date(resource._document.version.timestamp.seconds * 1000).toLocaleString()
+      console.log(name, translatedContent)
 
       return (
         <li key={index}>
@@ -46,9 +53,9 @@ class Dashboard extends Component {
           <div>
             Original last updated: {new Date(lastModified).toLocaleString()}
           </div>
-          <div>
-            Translation last updated: {new Date(resource._document.version.timestamp.seconds * 1000).toLocaleString()}
-          </div>
+          {translatedContent
+            ? <div>Translation last updated: {lastTranslated}</div>
+            : null}
           {markedAsComplete
             ? <div>Marked as Complete: 👌</div>
             : null}
