@@ -37,9 +37,18 @@ class Dashboard extends Component {
 
   renderResources () {
     return this.state.resources.map((resource, index) => {
+      const { url, name, lastModified } = resource.data()
+      console.log('last modified on server:', new Date(resource._document.version.timestamp.seconds * 1000).toLocaleString())
+
       return (
         <li key={index}>
-          <Link to={{pathname: resource.data().url}}>{resource.data().name}</Link>
+          <Link to={{pathname: url}}>{name}</Link>
+          <div>
+            Original last updated: {new Date(lastModified).toLocaleString()}
+          </div>
+          <div>
+            Translation last updated: {new Date(resource._document.version.timestamp.seconds * 1000).toLocaleString()}
+          </div>
           <button onClick={() => this.deleteDocument(resource.id)}>Delete</button>
         </li>
       )
