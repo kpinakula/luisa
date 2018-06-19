@@ -35,6 +35,11 @@ class Dashboard extends Component {
     unsubscribe()
   }
 
+  handleDownload (translatedContent) {
+    const download = new window.Blob([translatedContent], {type: 'text/plain'})
+    return URL.createObjectURL(download)
+  }
+
   renderResources () {
     return this.state.resources.map((resource, index) => {
       const {
@@ -45,7 +50,7 @@ class Dashboard extends Component {
         markedAsComplete
       } = resource.data()
       const lastTranslated = new Date(resource._document.version.timestamp.seconds * 1000).toLocaleString()
-      console.log(name, translatedContent)
+      const translationDownload = this.handleDownload(translatedContent)
 
       return (
         <li key={index}>
@@ -60,6 +65,9 @@ class Dashboard extends Component {
             ? <div>Marked as Complete: 👌</div>
             : null}
           <button onClick={() => this.deleteDocument(resource.id)}>Delete</button>
+          {translatedContent
+            ? <a href={`${translationDownload}`} download={name}>Download Translation</a>
+            : null}
         </li>
       )
     })
