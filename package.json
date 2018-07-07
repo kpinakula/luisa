@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "webpack-dev-server --open",
+    "start": "node src/index.js",
     "build": "webpack --config ./webpack.config.js"
   },
   "dependencies": {
