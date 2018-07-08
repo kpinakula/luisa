@@ -13,7 +13,8 @@ class Workspace extends Component {
       originalContent: '',
       translatedContent: '',
       updatedContent: '',
-      markedAsComplete: false
+      markedAsComplete: false,
+      currentLine: 0
     }
     this.handleSave = this.handleSave.bind(this)
     this.handleComplete = this.handleComplete.bind(this)
@@ -83,6 +84,15 @@ class Workspace extends Component {
     }
   }
 
+  highlightCurrentLine (editor) {
+    const { line } = editor.getCursor()
+
+    this.setState(prevState => {
+      editor.removeLineClass(prevState.currentLine, 'background', 'current-line')
+      return {currentLine: line}
+    }, () => editor.addLineClass(line, 'background', 'current-line'))
+  }
+
   handleSave () {
     this.props.database
       .collection('resources')
@@ -145,6 +155,9 @@ class Workspace extends Component {
               options={{lineWrapping: true, lineNumbers: true, readOnly: this.state.markedAsComplete}}
               onChange={(editor, data, value) => {
                 this.setState({updatedContent: value})
+              }}
+              onCursorActivity={editor => {
+                this.highlightCurrentLine(editor)
               }}
             />
           </div>
