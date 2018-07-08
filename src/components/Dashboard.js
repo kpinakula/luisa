@@ -3,6 +3,8 @@ import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
+import './dashboard.less'
+
 class Dashboard extends Component {
   constructor (props) {
     super(props)
@@ -53,22 +55,32 @@ class Dashboard extends Component {
       const translationDownload = this.handleDownload(translatedContent)
 
       return (
-        <li key={index}>
-          <Link to={{pathname: url}}>{name}</Link>
-          <div>
-            Original last updated: {new Date(lastModified).toLocaleString()}
-          </div>
-          {translatedContent
-            ? <div>Translation last updated: {lastTranslated}</div>
-            : null}
-          {markedAsComplete
-            ? <div>Marked as Complete: 👌</div>
-            : null}
-          <button onClick={() => this.deleteDocument(resource.id)}>Delete</button>
-          {translatedContent
-            ? <a href={`${translationDownload}`} download={name}>Download Translation</a>
-            : null}
-        </li>
+        <tr className="resource" key={index}>
+          <td className="name">
+            <Link to={{pathname: url}}>{name}</Link>
+          </td>
+          <td className="last-modified">
+            {new Date(lastModified).toLocaleString()}
+          </td>
+          <td className="last-translated">
+            {translatedContent
+              ? lastTranslated
+              : null}
+          </td>
+          <td className="complete centered">
+            {markedAsComplete
+              ? '👌'
+              : null}
+          </td>
+          <td className="download centered">
+            {translatedContent
+              ? <a href={`${translationDownload}`} download={name}>📥</a>
+              : null}
+          </td>
+          <td className="delete centered">
+            <button onClick={() => this.deleteDocument(resource.id)}>🔥</button>
+          </td>
+        </tr>
       )
     })
   }
@@ -105,7 +117,17 @@ class Dashboard extends Component {
       <div>
         <Dropzone onDrop={this.onDrop} />
         {this.state.resources.length
-          ? <ul>{this.renderResources()}</ul>
+          ? <table className="resources">
+            <tr className="resources-header">
+              <th className="name">Name</th>
+              <th className="last-modified">Last Modified</th>
+              <th className="last-translated">Last Translated</th>
+              <th className="complete centered">Marked as Complete</th>
+              <th className="download centered">Download Translation</th>
+              <th className="delete centered">Delete</th>
+            </tr>
+            {this.renderResources()}
+          </table>
           : <div>Loading ...</div>}
       </div>
     )
