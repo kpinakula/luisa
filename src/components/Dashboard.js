@@ -69,16 +69,16 @@ class Dashboard extends Component {
           </td>
           <td className="complete centered">
             {markedAsComplete
-              ? '👌'
+              ? <span>&#x2714;</span>
               : null}
           </td>
           <td className="download centered">
             {translatedContent
-              ? <a href={`${translationDownload}`} download={name}>📥</a>
+              ? <a href={`${translationDownload}`} download={name}>&#x2601;</a>
               : null}
           </td>
           <td className="delete centered">
-            <button onClick={() => this.deleteDocument(resource.id)}>🔥</button>
+            <button onClick={() => this.deleteDocument(resource.id)}>&#x2718;</button>
           </td>
         </tr>
       )
@@ -116,6 +116,7 @@ class Dashboard extends Component {
     return (
       <div>
         <Dropzone onDrop={this.onDrop} />
+        <h3>Available Resources</h3>
         {this.state.resources.length
           ? <table className="resources">
             <tr className="resources-header">
