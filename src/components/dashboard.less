@@ -2,6 +2,30 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.page-title {
+  text-align: center;
+}
+
+.dropzone {
+  max-width: 40vw;
+  border: 2px dashed #0087F7;
+  border-radius: 5px;
+  min-height: 15vh;
+  float:center;
+  margin: auto;
+
+  .dz-message, .dz-note {
+    text-align: center;
+    height: 1px;
+    margin: 2em auto;
+    font-size: 1.4rem;
+    color: #646C7F;
+  }
+
+  .dz-note {
+    font-size: 1rem;
+  }
+}
 .resources {
   width: 90vw;
   margin: 0 auto;
@@ -18,14 +42,7 @@
     align-items: flex-end;
     color: #696969;
 
-    // th {
-    //   vertical-align: middle;
-    //   line-height: 1.5rem;
-    //   padding: 1px auto;
-    // }
-
     > * {
-      // display: flex;
       text-align: left;
     }
 
@@ -69,10 +86,6 @@
       }
     }
   }
-  
-  // .resource-column {
-  //   flex: 40% 0 0;
-  // }
 
   .resource {
     &:hover {

@@ -115,7 +115,11 @@ class Dashboard extends Component {
   render () {
     return (
       <div>
-        <Dropzone onDrop={this.onDrop} accept=".html, .xml" />
+        <h2 className="page-title">🐶 LUISA</h2>
+        <Dropzone onDrop={this.onDrop} accept=".html, .xml" className="dropzone">
+          <p className="dz-message">Drop files here or click to upload.</p>
+          <p className="dz-note">Only *.html and *.xml files will be accepted</p>
+        </Dropzone>
         <h3>Available Resources</h3>
         {this.state.resources.length
           ? <table className="resources">
