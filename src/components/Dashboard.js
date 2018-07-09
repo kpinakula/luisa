@@ -120,7 +120,7 @@ class Dashboard extends Component {
           <p className="dz-message">Drop files here or click to upload.</p>
           <p className="dz-note">Only *.html and *.xml files will be accepted</p>
         </Dropzone>
-        <h3>Available Resources</h3>
+        <h3 className="table-title">Available Resources</h3>
         {this.state.resources.length
           ? <table className="resources">
             <tr className="resources-header">
@@ -133,7 +133,7 @@ class Dashboard extends Component {
             </tr>
             {this.renderResources()}
           </table>
-          : <div>Loading ...</div>}
+          : <div className="loading">Loading ...</div>}
       </div>
     )
   }
