@@ -115,7 +115,7 @@ class Dashboard extends Component {
   render () {
     return (
       <div>
-        <Dropzone onDrop={this.onDrop} />
+        <Dropzone onDrop={this.onDrop} accept=".html, .xml" />
         <h3>Available Resources</h3>
         {this.state.resources.length
           ? <table className="resources">
