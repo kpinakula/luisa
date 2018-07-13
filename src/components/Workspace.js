@@ -141,6 +141,9 @@ class Workspace extends Component {
                 this.hideStyleTag(editor)
               }}
               options={{lineWrapping: true, lineNumbers: true, readOnly: true}}
+              onCursorActivity={editor => {
+                this.highlightCurrentLine(editor)
+              }}
             />
           </div>
           <div className="editor-container">
@@ -153,7 +156,7 @@ class Workspace extends Component {
                 this.hideStyleTag(editor)
               }}
               options={{lineWrapping: true, lineNumbers: true, readOnly: this.state.markedAsComplete}}
-              onChange={(editor, data, value) => {
+              onUpdate={(editor, data, value) => {
                 this.setState({updatedContent: value})
               }}
               onCursorActivity={editor => {
