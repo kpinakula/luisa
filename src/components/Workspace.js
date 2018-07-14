@@ -89,8 +89,13 @@ class Workspace extends Component {
 
     this.setState(prevState => {
       editor.removeLineClass(prevState.currentLine, 'background', 'current-line')
+      this.state.originalEditor.removeLineClass(prevState.currentLine, 'background', 'current-line')
+
       return {currentLine: line}
-    }, () => editor.addLineClass(line, 'background', 'current-line'))
+    }, () => {
+      editor.addLineClass(line, 'background', 'current-line')
+      this.state.originalEditor.addLineClass(line, 'background', 'current-line')
+    })
   }
 
   handleSave () {
@@ -139,11 +144,9 @@ class Workspace extends Component {
               editorDidMount={editor => {
                 this.applyReadOnly(editor)
                 this.hideStyleTag(editor)
+                this.setState({originalEditor: editor})
               }}
               options={{lineWrapping: true, lineNumbers: true, readOnly: true}}
-              onCursorActivity={editor => {
-                this.highlightCurrentLine(editor)
-              }}
             />
           </div>
           <div className="editor-container">
@@ -161,6 +164,9 @@ class Workspace extends Component {
               }}
               onCursorActivity={editor => {
                 this.highlightCurrentLine(editor)
+              }}
+              onScroll={editor => {
+                this.state.originalEditor.scrollTo(0, editor.getScrollInfo().top)
               }}
             />
           </div>
