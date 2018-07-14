@@ -159,7 +159,7 @@ class Workspace extends Component {
                 this.hideStyleTag(editor)
               }}
               options={{lineWrapping: true, lineNumbers: true, readOnly: this.state.markedAsComplete}}
-              onUpdate={(editor, data, value) => {
+              onChange={(editor, data, value) => {
                 this.setState({updatedContent: value})
               }}
               onCursorActivity={editor => {
