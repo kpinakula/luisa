@@ -13,6 +13,7 @@ class Workspace extends Component {
       originalContent: '',
       translatedContent: '',
       updatedContent: '',
+      name: '',
       markedAsComplete: false,
       currentLine: 0,
       hasChange: false,
@@ -27,12 +28,13 @@ class Workspace extends Component {
     const databaseRef = this.props.database.collection('resources').doc(this.props.documentId)
     databaseRef.get()
       .then(doc => {
-        const { originalContent, translatedContent, markedAsComplete } = doc.data()
+        const { originalContent, translatedContent, markedAsComplete, name } = doc.data()
         this.setState({
           originalContent,
           translatedContent,
           translated: Boolean(translatedContent),
-          markedAsComplete
+          markedAsComplete,
+          name
         })
       })
     this.getTimeLastSaved()
@@ -160,6 +162,7 @@ class Workspace extends Component {
           hasChange={this.state.hasChange}
           lastSaved={this.state.lastSaved}
           translated={this.state.translated}
+          resourceName={this.state.name}
         />
         <div className="editors">
           <div className="editor-container">
