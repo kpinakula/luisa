@@ -57,7 +57,7 @@ class Dashboard extends Component {
       return (
         <tr className="resource" key={index}>
           <td className="name">
-            <Link to={{pathname: url}}>{name}</Link>
+            <Link to={{pathname: url}} target="_blank">{name}</Link>
           </td>
           <td className="last-modified">
             {new Date(lastModified).toLocaleString()}
