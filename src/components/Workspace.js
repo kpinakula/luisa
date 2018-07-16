@@ -14,7 +14,10 @@ class Workspace extends Component {
       translatedContent: '',
       updatedContent: '',
       markedAsComplete: false,
-      currentLine: 0
+      currentLine: 0,
+      hasChange: false,
+      lastSaved: '',
+      translated: false
     }
     this.handleSave = this.handleSave.bind(this)
     this.handleComplete = this.handleComplete.bind(this)
@@ -28,9 +31,11 @@ class Workspace extends Component {
         this.setState({
           originalContent,
           translatedContent,
+          translated: Boolean(translatedContent),
           markedAsComplete
         })
       })
+    this.getTimeLastSaved()
   }
 
   applyReadOnly (codeMirror) {
@@ -105,7 +110,25 @@ class Workspace extends Component {
       .update({
         translatedContent: this.state.updatedContent
       })
+
+    // todo: only set state if db update succeeded
+    this.setState({
+      hasChange: false,
+      translated: true,
+      lastSaved: new Date().toLocaleString()
+    })
+
     console.log('You are saved')
+  }
+
+  getTimeLastSaved () {
+    // todo: store docRef in state?
+    const docRef = this.props.database.collection('resources').doc(this.props.documentId)
+    docRef.get()
+      .then(({ _document }) => {
+        const lastSaved = new Date(_document.version.timestamp.seconds * 1000).toLocaleString()
+        this.setState({lastSaved})
+      })
   }
 
   handleComplete () {
@@ -134,6 +157,9 @@ class Workspace extends Component {
           handleSave={this.handleSave}
           markedAsComplete={this.state.markedAsComplete}
           handleComplete={this.handleComplete}
+          hasChange={this.state.hasChange}
+          lastSaved={this.state.lastSaved}
+          translated={this.state.translated}
         />
         <div className="editors">
           <div className="editor-container">
@@ -161,6 +187,7 @@ class Workspace extends Component {
               options={{lineWrapping: true, lineNumbers: true, readOnly: this.state.markedAsComplete}}
               onChange={(editor, data, value) => {
                 this.setState({updatedContent: value})
+                this.setState({hasChange: true})
               }}
               onCursorActivity={editor => {
                 this.highlightCurrentLine(editor)
