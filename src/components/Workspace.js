@@ -86,6 +86,7 @@ class Workspace extends Component {
       }
     }
 
+    // to do: check if collapsed: true is obsolete
     if (start.line && end.line) {
       editor.markText(start, end, {collapsed: true})
     }
@@ -176,6 +177,8 @@ class Workspace extends Component {
                 this.setState({originalEditor: editor})
               }}
               options={{lineWrapping: true, lineNumbers: true, readOnly: true}}
+              // to do: on blur remove selection
+
             />
           </div>
           <div className="editor-container">
@@ -198,6 +201,7 @@ class Workspace extends Component {
               onScroll={editor => {
                 this.state.originalEditor.scrollTo(0, editor.getScrollInfo().top)
               }}
+              // to do: on blur remove selection
             />
           </div>
         </div>
