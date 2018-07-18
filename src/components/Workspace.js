@@ -20,6 +20,8 @@ class Workspace extends Component {
       lastSaved: '',
       translated: false
     }
+
+    this.highlightCurrentLine = this.highlightCurrentLine.bind(this)
     this.handleSave = this.handleSave.bind(this)
     this.handleComplete = this.handleComplete.bind(this)
   }
@@ -96,13 +98,13 @@ class Workspace extends Component {
     const { line } = editor.getCursor()
 
     this.setState(prevState => {
-      editor.removeLineClass(prevState.currentLine, 'background', 'current-line')
       this.state.originalEditor.removeLineClass(prevState.currentLine, 'background', 'current-line')
+      this.state.translationEditor.removeLineClass(prevState.currentLine, 'background', 'current-line')
 
       return {currentLine: line}
     }, () => {
-      editor.addLineClass(line, 'background', 'current-line')
       this.state.originalEditor.addLineClass(line, 'background', 'current-line')
+      this.state.translationEditor.addLineClass(line, 'background', 'current-line')
     })
   }
 
@@ -177,6 +179,7 @@ class Workspace extends Component {
                 this.setState({originalEditor: editor})
               }}
               options={{lineWrapping: true, lineNumbers: true, readOnly: true}}
+              onCursorActivity={this.highlightCurrentLine}
               onScroll={editor => {
                 this.state.translationEditor.scrollTo(0, editor.getScrollInfo().top)
               }}
@@ -199,9 +202,7 @@ class Workspace extends Component {
                 this.setState({updatedContent: value})
                 this.setState({hasChange: true})
               }}
-              onCursorActivity={editor => {
-                this.highlightCurrentLine(editor)
-              }}
+              onCursorActivity={this.highlightCurrentLine}
               onScroll={editor => {
                 this.state.originalEditor.scrollTo(0, editor.getScrollInfo().top)
               }}
