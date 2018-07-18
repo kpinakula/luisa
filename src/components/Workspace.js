@@ -177,6 +177,9 @@ class Workspace extends Component {
                 this.setState({originalEditor: editor})
               }}
               options={{lineWrapping: true, lineNumbers: true, readOnly: true}}
+              onScroll={editor => {
+                this.state.translationEditor.scrollTo(0, editor.getScrollInfo().top)
+              }}
               // to do: on blur remove selection
 
             />
@@ -189,6 +192,7 @@ class Workspace extends Component {
               editorDidMount={editor => {
                 this.applyReadOnly(editor)
                 this.hideStyleTag(editor)
+                this.setState({translationEditor: editor})
               }}
               options={{lineWrapping: true, lineNumbers: true, readOnly: this.state.markedAsComplete}}
               onChange={(editor, data, value) => {
@@ -201,7 +205,7 @@ class Workspace extends Component {
               onScroll={editor => {
                 this.state.originalEditor.scrollTo(0, editor.getScrollInfo().top)
               }}
-              // to do: on blur remove selection
+              // to do: on blur remove selectio
             />
           </div>
         </div>
