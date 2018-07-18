@@ -10,6 +10,7 @@ class Dashboard extends Component {
     super(props)
 
     this.state = {
+      isLoading: true,
       resources: []
     }
 
@@ -25,7 +26,7 @@ class Dashboard extends Component {
           return a.data().name.localeCompare(b.data().name, undefined, options)
         })
 
-      this.setState({ resources })
+      this.setState({ resources, isLoading: false })
     })
   }
 
@@ -40,6 +41,26 @@ class Dashboard extends Component {
   handleDownload (translatedContent) {
     const download = new window.Blob([translatedContent], {type: 'text/plain'})
     return URL.createObjectURL(download)
+  }
+
+  renderResourceTable () {
+    const resourcesTable = (
+      <table className="resources">
+        <tr className="resources-header">
+          <th className="name">Name</th>
+          <th className="last-modified">Last Modified</th>
+          <th className="last-translated">Last Translated</th>
+          <th className="complete centered">Marked as Complete</th>
+          <th className="download centered">Download Translation</th>
+          <th className="delete centered">Delete</th>
+        </tr>
+        {this.renderResources()}
+      </table>
+    )
+
+    return this.state.resources.length
+      ? resourcesTable
+      : <div className="status">No resources to display. Upload files above 🐾</div>
   }
 
   renderResources () {
@@ -121,19 +142,10 @@ class Dashboard extends Component {
           <p className="dz-note">Only *.html and *.xml files will be accepted</p>
         </Dropzone>
         <h3 className="table-title">Available Resources</h3>
-        {this.state.resources.length
-          ? <table className="resources">
-            <tr className="resources-header">
-              <th className="name">Name</th>
-              <th className="last-modified">Last Modified</th>
-              <th className="last-translated">Last Translated</th>
-              <th className="complete centered">Marked as Complete</th>
-              <th className="download centered">Download Translation</th>
-              <th className="delete centered">Delete</th>
-            </tr>
-            {this.renderResources()}
-          </table>
-          : <div className="loading">Loading ...</div>}
+        {this.state.isLoading
+          ? <div className="status">Loading ...</div>
+          : this.renderResourceTable()
+        }
       </div>
     )
   }
