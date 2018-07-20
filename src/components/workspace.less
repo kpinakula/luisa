@@ -7,7 +7,7 @@ body {
 .workspace-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
   height: 100vh;
 
@@ -22,13 +22,15 @@ body {
   }
 
   .editors {
+    flex: calc(100vh - 65px);
     display: flex;
-    margin: 0 25px;
+    flex-direction: row;
+    margin: 0 20px;
 
     .editor-container {
       display: flex;
       flex-direction: column;
-      flex: 1 0 0;
+      width: calc(50vw - 20px);
 
       .editor-title {
         flex: 5% 0 0;
