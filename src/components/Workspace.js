@@ -197,7 +197,12 @@ class Workspace extends Component {
                 this.hideStyleTag(editor)
                 this.setState({translationEditor: editor})
               }}
-              options={{lineWrapping: true, lineNumbers: true, readOnly: this.state.markedAsComplete}}
+              options={{
+                lineWrapping: true,
+                lineNumbers: true,
+                readOnly: this.state.markedAsComplete,
+                extraKeys: {Enter: () => null}
+              }}
               onChange={(editor, data, value) => {
                 this.setState({updatedContent: value})
                 this.setState({hasChange: true})
