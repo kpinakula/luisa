@@ -88,7 +88,7 @@ class Workspace extends Component {
       }
     }
 
-    // to do: check if collapsed: true is obsolete
+    // todo: check if collapsed: true is obsolete
     if (start.line && end.line) {
       editor.markText(start, end, {collapsed: true})
     }
@@ -136,6 +136,7 @@ class Workspace extends Component {
       })
   }
 
+  // todo: reverse order
   handleComplete () {
     this.setState(prevState => {
       return {markedAsComplete: !prevState.markedAsComplete}
@@ -157,7 +158,6 @@ class Workspace extends Component {
     return (
       <div className="workspace-container">
         <ActionBar
-          className="action-bar"
           documentId={this.props.documentId}
           handleSave={this.handleSave}
           markedAsComplete={this.state.markedAsComplete}
@@ -167,6 +167,9 @@ class Workspace extends Component {
           translated={this.state.translated}
           resourceName={this.state.name}
         />
+        {this.state.markedAsComplete
+          ? <div className="overlay-complete"><h1>Excellent! You've marked this translation as complete.</h1><p>In case you wish to make further edits, please uncheck the Mark as complete box.</p><p>Happy editing!</p></div>
+          : null}
         <div className="editors">
           <div className="editor-container">
             <h3 className="editor-title">ORIGINAL</h3>
@@ -183,7 +186,7 @@ class Workspace extends Component {
               onScroll={editor => {
                 this.state.translationEditor.scrollTo(0, editor.getScrollInfo().top)
               }}
-              // to do: on blur remove selection
+              // todo: on blur remove selection
 
             />
           </div>
@@ -211,7 +214,7 @@ class Workspace extends Component {
               onScroll={editor => {
                 this.state.originalEditor.scrollTo(0, editor.getScrollInfo().top)
               }}
-              // to do: on blur remove selectio
+              // todo: on blur remove selection
             />
           </div>
         </div>

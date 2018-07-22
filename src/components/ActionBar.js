@@ -5,7 +5,7 @@ import './actionbar.less'
 
 function ActionBar (props) {
   return (
-    <div className="action-bar">
+    <div className={props.markedAsComplete ? 'action-bar complete' : 'action-bar'}>
       <h2 className="page-title action-bar-text">🐶</h2>
       <p className="action-bar-text resource-name">{props.resourceName}</p>
       {props.hasChange
