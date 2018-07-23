@@ -110,21 +110,23 @@ class Workspace extends Component {
   }
 
   handleSave () {
-    this.props.database
-      .collection('resources')
-      .doc(this.props.documentId)
-      .update({
-        translatedContent: this.state.updatedContent
+    if (this.state.hasChange) {
+      this.props.database
+        .collection('resources')
+        .doc(this.props.documentId)
+        .update({
+          translatedContent: this.state.updatedContent
+        })
+
+      // todo: only set state if db update succeeded
+      this.setState({
+        hasChange: false,
+        translated: true,
+        lastSaved: new Date().toLocaleString()
       })
 
-    // todo: only set state if db update succeeded
-    this.setState({
-      hasChange: false,
-      translated: true,
-      lastSaved: new Date().toLocaleString()
-    })
-
-    console.log('You are saved')
+      console.log('You are saved')
+    }
   }
 
   getTimeLastSaved () {
