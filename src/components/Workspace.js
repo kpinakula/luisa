@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import _ from 'underscore'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 import PropTypes from 'prop-types'
 import ActionBar from './ActionBar'
@@ -220,6 +221,7 @@ class Workspace extends Component {
               onChange={(editor, data, value) => {
                 this.setState({updatedContent: value})
                 this.setState({hasChange: true})
+                _.debounce(this.handleSave, 4000)()
               }}
               onCursorActivity={this.highlightCurrentLine}
               onScroll={editor => {
