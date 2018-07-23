@@ -18,7 +18,8 @@ class Workspace extends Component {
       currentLine: 0,
       hasChange: false,
       lastSaved: '',
-      translated: false
+      translated: false,
+      mode: ''
     }
 
     this.highlightCurrentLine = this.highlightCurrentLine.bind(this)
@@ -136,6 +137,13 @@ class Workspace extends Component {
       })
   }
 
+  getFileExtension () {
+    const fileType = this.state.name.split('.').pop()
+    if (fileType === 'html') {
+      this.setState({mode: 'htmlmixed'})
+    } else this.setState({mode: fileType})
+  }
+
   // todo: reverse order
   handleComplete () {
     this.setState(prevState => {
@@ -176,10 +184,12 @@ class Workspace extends Component {
             <CodeMirror
               className="editor"
               value={this.state.originalContent}
+              mode={this.state.mode}
               editorDidMount={editor => {
                 this.applyReadOnly(editor)
                 this.hideStyleTag(editor)
                 this.setState({originalEditor: editor})
+                this.getFileExtension()
               }}
               options={{lineWrapping: true, lineNumbers: true, readOnly: true}}
               onCursorActivity={this.highlightCurrentLine}
@@ -195,6 +205,7 @@ class Workspace extends Component {
             <CodeMirror
               className="editor"
               value={this.state.translatedContent || this.state.originalContent}
+              mode={this.state.mode}
               editorDidMount={editor => {
                 this.applyReadOnly(editor)
                 this.hideStyleTag(editor)
