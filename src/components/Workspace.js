@@ -110,8 +110,9 @@ class Workspace extends Component {
     })
   }
 
+  // todo: should first call handle save when 'mark as complete' is clicked
   handleSave () {
-    if (this.state.hasChange) {
+    if (this.state.hasChange && !this.state.markedAsComplete) {
       this.props.database
         .collection('resources')
         .doc(this.props.documentId)
