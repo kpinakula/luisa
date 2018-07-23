@@ -196,8 +196,6 @@ class Workspace extends Component {
               onScroll={editor => {
                 this.state.translationEditor.scrollTo(0, editor.getScrollInfo().top)
               }}
-              // todo: on blur remove selection
-
             />
           </div>
           <div className="editor-container">
@@ -225,7 +223,6 @@ class Workspace extends Component {
               onScroll={editor => {
                 this.state.originalEditor.scrollTo(0, editor.getScrollInfo().top)
               }}
-              // todo: on blur remove selection
             />
           </div>
         </div>

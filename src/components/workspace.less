@@ -48,7 +48,11 @@ body {
         flex: 85% 0 0;
 
         .CodeMirror-selected  {
-          background-color: #f7e9de;
+          background-color: transparent;
+        }
+
+        .CodeMirror-focused .CodeMirror-selected {
+          background-color: #f7e9de;;
         }
 
         > * {
