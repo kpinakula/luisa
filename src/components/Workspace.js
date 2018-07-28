@@ -25,6 +25,7 @@ class Workspace extends Component {
 
     this.highlightCurrentLine = this.highlightCurrentLine.bind(this)
     this.handleSave = this.handleSave.bind(this)
+    this.debouncedHandleSave = _.debounce(this.handleSave.bind(this), 3000)
     this.handleComplete = this.handleComplete.bind(this)
   }
 
@@ -220,9 +221,7 @@ class Workspace extends Component {
                 extraKeys: {Enter: () => null}
               }}
               onChange={(editor, data, value) => {
-                this.setState({updatedContent: value})
-                this.setState({hasChange: true})
-                _.debounce(this.handleSave, 4000)()
+                this.setState({updatedContent: value, hasChange: true}, this.debouncedHandleSave)
               }}
               onCursorActivity={this.highlightCurrentLine}
               onScroll={editor => {
