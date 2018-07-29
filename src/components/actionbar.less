@@ -1,58 +1,110 @@
 .action-bar {
-  flex: 65px 0 0;
-  width: 100%;
   display: flex;
-  justify-content: space-between;
-  background-color: coral;
-  flex-direction: row;
-  align-items: center;
+  flex: 120px 0 0;
+  flex-direction: column;
+  width: 100%;
 
-  &.complete {
-    background-color: #23bf8e;
+  .title-bar {
+    display: flex;
+    flex-basis: 80px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: coral;
+
+    &.complete {
+      background-color: #23bf8e;
+    }
+
+    .title-bar-text {
+      color: white;
+      font-size: 1rem;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+    }
+
+    .resource-name {
+      color: #409af8;
+      background: white;
+      border-radius: 2px;
+      padding: 0.5rem;
+    }
+    
+    .save-status {
+      font-size: 0.8rem;
+    }
+
+    button {
+      background: transparent;
+      padding: 5px 15px;
+      border: 2px solid white;
+      border-radius: 5px;
+      margin: 15px;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+
+    label {
+      input {
+        font-size: 2rem;
+      }
+    }
   }
 
-  .action-bar-text {
-    color: white;
-    font-size: 1rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
+  .options-bar {
+    display: flex;
+    flex-basis: 40px;
+    align-items: center;
+    background-color: #5A6978;
+
+    .options-bar-text {
+      color: white;
+      font-size: .9rem;
+      margin: auto;
+      padding-left: 1rem;
+    }
+
+    .option {
+      display: flex;
+      margin: auto 20px;
+    }
+  }
+}
+
+.react-toggle {
+  &:hover:not(.react-toggle--disabled) {
+    .react-toggle-track {
+      background-color: #b1b6bf;
+    }
   }
 
-  .page-title {
-    font-size: 1.8rem;
-  }
+  &.react-toggle--checked {
+    .react-toggle-track {
+      background-color: #30BE8F;
 
-  .resource-name {
-    color: #409af8;
-    background: white;
-    border-radius: 2px;
-    padding: 0.5rem;
+      &:hover {
+        background-color: #25946f;
+      }
+    }
+
+    .react-toggle-thumb {
+      left: 17px;
+    }
   }
   
-  .save-status {
-    font-size: 0.8rem;
-  }
-
-  button {
-    background: transparent;
-    padding: 5px 15px;
-    border: 2px solid white;
-    border-radius: 5px;
-    margin: 15px;
-    cursor: pointer;
-
-    &:focus {
-      outline: none;
-    }
-
-    &:active {
-      transform: translateY(1px);
-    }
-  }
-
-  label {
-    input {
-      font-size: 2rem;
-    }
+  .react-toggle-track {
+    width: 40px;
+    background-color: #E5E9F2;
   }
 }

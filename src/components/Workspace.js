@@ -20,13 +20,15 @@ class Workspace extends Component {
       hasChange: false,
       lastSaved: '',
       translated: false,
-      mode: ''
+      mode: '',
+      scrollSynchronized: true
     }
 
     this.highlightCurrentLine = this.highlightCurrentLine.bind(this)
     this.handleSave = this.handleSave.bind(this)
     this.debouncedHandleSave = _.debounce(this.handleSave.bind(this), 3000)
     this.handleComplete = this.handleComplete.bind(this)
+    this.handleScrollSynchronization = this.handleScrollSynchronization.bind(this)
   }
 
   componentDidMount () {
@@ -163,6 +165,10 @@ class Workspace extends Component {
     })
   }
 
+  handleScrollSynchronization () {
+    this.setState(prevState => ({scrollSynchronized: !prevState.scrollSynchronized}))
+  }
+
   render () {
     if (!this.state.originalContent && !this.state.translatedContent) {
       return null
@@ -179,6 +185,7 @@ class Workspace extends Component {
           lastSaved={this.state.lastSaved}
           translated={this.state.translated}
           resourceName={this.state.name}
+          handleScrollSynchronization={this.handleScrollSynchronization}
         />
         {this.state.markedAsComplete
           ? <div className="overlay-complete"><h1>Excellent! You've marked this translation as complete.</h1><p>In case you wish to make further edits, please uncheck the Mark as complete box.</p><p>Happy editing!</p></div>
@@ -199,7 +206,9 @@ class Workspace extends Component {
               options={{lineWrapping: true, lineNumbers: true, readOnly: true}}
               onCursorActivity={this.highlightCurrentLine}
               onScroll={editor => {
-                this.state.translationEditor.scrollTo(0, editor.getScrollInfo().top)
+                if (this.state.scrollSynchronized) {
+                  this.state.translationEditor.scrollTo(0, editor.getScrollInfo().top)
+                }
               }}
             />
           </div>
@@ -225,7 +234,9 @@ class Workspace extends Component {
               }}
               onCursorActivity={this.highlightCurrentLine}
               onScroll={editor => {
-                this.state.originalEditor.scrollTo(0, editor.getScrollInfo().top)
+                if (this.state.scrollSynchronized) {
+                  this.state.originalEditor.scrollTo(0, editor.getScrollInfo().top)
+                }
               }}
             />
           </div>
