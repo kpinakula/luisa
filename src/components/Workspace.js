@@ -21,14 +21,15 @@ class Workspace extends Component {
       lastSaved: '',
       translated: false,
       mode: '',
-      scrollSynchronized: true
+      scrollSyncEnabled: true,
+      autoSaveEnabled: true
     }
 
     this.highlightCurrentLine = this.highlightCurrentLine.bind(this)
     this.handleSave = this.handleSave.bind(this)
     this.debouncedHandleSave = _.debounce(this.handleSave.bind(this), 3000)
     this.handleComplete = this.handleComplete.bind(this)
-    this.handleScrollSynchronization = this.handleScrollSynchronization.bind(this)
+    this.toggleState = this.toggleState.bind(this)
   }
 
   componentDidMount () {
@@ -165,8 +166,10 @@ class Workspace extends Component {
     })
   }
 
-  handleScrollSynchronization () {
-    this.setState(prevState => ({scrollSynchronized: !prevState.scrollSynchronized}))
+  toggleState (property) {
+    this.setState(prevState => ({
+      [property]: !prevState[property]
+    }))
   }
 
   render () {
@@ -185,7 +188,8 @@ class Workspace extends Component {
           lastSaved={this.state.lastSaved}
           translated={this.state.translated}
           resourceName={this.state.name}
-          handleScrollSynchronization={this.handleScrollSynchronization}
+          toggleScrollSync={() => this.toggleState('scrollSyncEnabled')}
+          toggleAutoSave={() => this.toggleState('autoSaveEnabled')}
         />
         {this.state.markedAsComplete
           ? <div className="overlay-complete"><h1>Excellent! You've marked this translation as complete.</h1><p>In case you wish to make further edits, please uncheck the Mark as complete box.</p><p>Happy editing!</p></div>
@@ -206,7 +210,7 @@ class Workspace extends Component {
               options={{lineWrapping: true, lineNumbers: true, readOnly: true}}
               onCursorActivity={this.highlightCurrentLine}
               onScroll={editor => {
-                if (this.state.scrollSynchronized) {
+                if (this.state.scrollSyncEnabled) {
                   this.state.translationEditor.scrollTo(0, editor.getScrollInfo().top)
                 }
               }}
@@ -230,11 +234,15 @@ class Workspace extends Component {
                 extraKeys: {Enter: () => null}
               }}
               onChange={(editor, data, value) => {
-                this.setState({updatedContent: value, hasChange: true}, this.debouncedHandleSave)
+                this.setState({updatedContent: value, hasChange: true}, () => {
+                  if (this.state.autoSaveEnabled) {
+                    this.debouncedHandleSave()
+                  }
+                })
               }}
               onCursorActivity={this.highlightCurrentLine}
               onScroll={editor => {
-                if (this.state.scrollSynchronized) {
+                if (this.state.scrollSyncEnabled) {
                   this.state.originalEditor.scrollTo(0, editor.getScrollInfo().top)
                 }
               }}

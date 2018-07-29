@@ -24,17 +24,19 @@ function ActionBar (props) {
         <div className="option">
           <ReactToggle
             defaultChecked
-            onChange={props.handleScrollSynchronization}
+            onChange={props.toggleScrollSync}
             icons={false}
           />
           <p className="options-bar-text">Synchronized Scrolling</p>
         </div>
-        {/* <ReactToggle
-          defaultChecked
-          onChange={props.handleAuto}
-          icons={false}
-        />
-        <p>Auto-save</p> */}
+        <div className="option">
+          <ReactToggle
+            defaultChecked
+            onChange={props.toggleAutoSave}
+            icons={false}
+          />
+          <p className="options-bar-text">Auto-Save</p>
+        </div>
       </div>
     </div>
   )
@@ -48,7 +50,8 @@ ActionBar.propTypes = {
   lastSaved: PropTypes.instanceOf(Date),
   translated: PropTypes.bool,
   resourceName: PropTypes.string,
-  handleScrollSynchronization: PropTypes.func.isRequired
+  toggleScrollSync: PropTypes.func.isRequired,
+  toggleAutoSave: PropTypes.func.isRequired
 }
 
 export default ActionBar
