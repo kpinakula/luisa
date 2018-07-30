@@ -16,9 +16,10 @@ function ActionBar (props) {
           : (props.translated ? <p className="save-status title-bar-text">All changes saved on {props.lastSaved}</p> : <p className="save-status title-bar-text">Not yet translated</p>)
         }
         <button className="button save title-bar-text" onClick={props.handleSave}>Save</button>
-        <label className="title-bar-text">Mark as complete
-          <input type="checkbox" checked={props.markedAsComplete} onChange={props.handleComplete} />
-        </label>
+        {props.markedAsComplete
+          ? <button className="button completed title-bar-text" onClick={props.handleComplete}><span className="check-mark">✔</span>Completed </button>
+          : <button className="button incomplete title-bar-text" onClick={props.handleComplete}><span className="check-mark">✔</span> Mark Complete</button>
+        }
       </div>
       <div className="options-bar">
         <div className="option">

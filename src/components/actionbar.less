@@ -50,11 +50,23 @@
       &:active {
         transform: translateY(1px);
       }
-    }
 
-    label {
-      input {
-        font-size: 2rem;
+      &.incomplete {
+        padding: 5px;
+
+        .check-mark {
+          padding-right: 5px;
+        }
+      }
+
+      &.completed {
+        background-color: white;
+        color: #23bf8e;
+        padding: 5px;
+
+        .check-mark {
+          padding-right: 5px;
+        }
       }
     }
   }

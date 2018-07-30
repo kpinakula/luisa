@@ -192,7 +192,7 @@ class Workspace extends Component {
           toggleAutoSave={() => this.toggleState('autoSaveEnabled')}
         />
         {this.state.markedAsComplete
-          ? <div className="overlay-complete"><h1>Excellent! You've marked this translation as complete.</h1><p>In case you wish to make further edits, please uncheck the Mark as complete box.</p><p>Happy editing!</p></div>
+          ? <div className="overlay-complete"><h1>Excellent! You've marked this translation as complete.</h1><p>In case you wish to make further edits, please press the Completed button and continue editing your translation.</p><p>Happy editing!</p></div>
           : null}
         <div className="editors">
           <div className="editor-container">
