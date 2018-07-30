@@ -49,28 +49,35 @@ class Workspace extends Component {
   }
 
   applyReadOnly (codeMirror) {
-    const lineCount = codeMirror.lineCount()
-    for (let i = 0; i < lineCount; i++) {
-      const lineContent = codeMirror.getLine(i)
-      const openTagIndices = []
-      const endTagIndices = []
-      for (let x = 0; x < lineContent.length; x++) {
-        if (lineContent[x] === '<') {
-          openTagIndices.push(x)
+    const numberOfLines = codeMirror.lineCount()
+    const openTagIndices = []
+    const endTagIndices = []
+
+    for (let lineIndex = 0; lineIndex < numberOfLines; lineIndex++) {
+      const lineContent = codeMirror.getLine(lineIndex)
+      for (let charIndex = 0; charIndex < lineContent.length; charIndex++) {
+        if (lineContent[charIndex] === '<' && openTagIndices.length === endTagIndices.length) {
+          openTagIndices.push([lineIndex, charIndex])
         }
-        if (lineContent[x] === '>') {
-          endTagIndices.push(x + 1)
+
+        if (lineContent[charIndex] === '>') {
+          if (lineContent[charIndex + 1] && lineContent.substring(charIndex).match(/>(?=\s*[^<|\s])/)) {
+            endTagIndices.push([lineIndex, charIndex + 1])
+          } else if (lineIndex + 1 === numberOfLines && charIndex + 1 === lineContent.length) {
+            endTagIndices.push([lineIndex, charIndex + 1])
+          }
         }
       }
-
-      openTagIndices.map((openTagIndex, index) => {
-        codeMirror.markText({line: i, ch: openTagIndex}, {line: i, ch: endTagIndices[index]}, {
-          readOnly: true,
-          className: 'markup',
-          atomic: true
-        })
-      })
     }
+
+    openTagIndices.map((openTagPosition, index) => {
+      const [ line, ch ] = openTagPosition
+      codeMirror.markText({line, ch}, {line: endTagIndices[index][0], ch: endTagIndices[index][1]}, {
+        readOnly: true,
+        className: 'markup',
+        atomic: true
+      })
+    })
   }
 
   hideStyleTag (editor) {
