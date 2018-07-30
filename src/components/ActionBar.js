@@ -15,10 +15,10 @@ function ActionBar (props) {
           ? <p className="save-status title-bar-text">Unsaved Changes</p>
           : (props.translated ? <p className="save-status title-bar-text">All changes saved on {props.lastSaved}</p> : <p className="save-status title-bar-text">Not yet translated</p>)
         }
-        <button className="button save title-bar-text" onClick={props.handleSave}>Save</button>
         {props.markedAsComplete
           ? <button className="button completed title-bar-text" onClick={props.handleComplete}><span className="check-mark">✔</span>Completed </button>
-          : <button className="button incomplete title-bar-text" onClick={props.handleComplete}><span className="check-mark">✔</span> Mark Complete</button>
+          : <div><button className="button save title-bar-text" onClick={props.handleSave}>Save</button>
+            <button className="button incomplete title-bar-text" onClick={props.handleComplete}><span className="check-mark">✔</span> Mark Complete</button></div>
         }
       </div>
       <div className="options-bar">
