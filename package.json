@@ -8,7 +8,8 @@
   "private": false,
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "webpack --config ./webpack.config.js"
+    "build": "webpack --config ./webpack.config.js",
+    "deploy": "webpack --config ./webpack.config.js && firebase deploy"
   },
   "dependencies": {
     "codemirror": "^5.38.0",
