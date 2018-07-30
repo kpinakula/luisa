@@ -5,6 +5,8 @@ import firebase from 'firebase'
 import Dashboard from './Dashboard'
 import Workspace from './Workspace'
 
+import './app.less'
+
 import { firebaseConfig } from '../../secrets'
 
 class App extends Component {
