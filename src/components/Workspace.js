@@ -153,7 +153,7 @@ class Workspace extends Component {
 
   // todo: reverse order
   handleComplete () {
-    if (!this.state.markedAsComplete && this.state.hasChange) {
+    if (this.state.hasChange) {
       this.handleSave()
     }
     this.setState(prevState => {
