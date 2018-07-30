@@ -19,8 +19,7 @@
     .title-bar-text {
       color: white;
       font-size: 1rem;
-      padding-left: 2rem;
-      padding-right: 2rem;
+      padding: 0 1rem;
     }
 
     .page-title {
@@ -29,10 +28,6 @@
 
     .resource-name {
       margin-right: auto;
-    }
-    
-    .save-status {
-      font-size: 0.8rem;
     }
 
     .button {
@@ -77,16 +72,23 @@
     align-items: center;
     background-color: #5A6978;
 
-    .options-bar-text {
-      color: white;
-      font-size: .9rem;
-      margin: auto;
-      padding-left: 1rem;
-    }
-
     .option {
       display: flex;
       margin: auto 20px;
+
+      .option-label {
+        color: white;
+        font-size: .9rem;
+        margin: auto;
+        padding-left: 1rem;
+      }
+    }
+
+    .save-status {
+      color: white;
+      font-size: 0.85rem;
+      margin: 0 0 0 auto;
+      padding-right: 17px;
     }
   }
 }

@@ -11,10 +11,6 @@ function ActionBar (props) {
       <div className={props.markedAsComplete ? 'title-bar complete' : 'title-bar'}>
         <h2 className="page-title title-bar-text">🐶</h2>
         <p className="title-bar-text resource-name">{props.resourceName}</p>
-        {props.hasChange
-          ? <p className="save-status title-bar-text">Unsaved Changes</p>
-          : (props.translated ? <p className="save-status title-bar-text">All changes saved on {props.lastSaved}</p> : <p className="save-status title-bar-text">Not yet translated</p>)
-        }
         <button
           className="button title-bar-text save"
           disabled={!props.hasChange}
@@ -37,7 +33,7 @@ function ActionBar (props) {
             onChange={props.toggleScrollSync}
             icons={false}
           />
-          <p className="options-bar-text">Synchronized Scrolling</p>
+          <p className="option-label">Synchronized Scrolling</p>
         </div>
         <div className="option">
           <ReactToggle
@@ -45,8 +41,16 @@ function ActionBar (props) {
             onChange={props.toggleAutoSave}
             icons={false}
           />
-          <p className="options-bar-text">Auto-Save</p>
+          <p className="option-label">Auto-Save</p>
         </div>
+        <p className="save-status">
+          {props.hasChange
+            ? 'Unsaved changes'
+            : props.translated
+              ? `All changes saved on ${props.lastSaved}`
+              : 'Not yet translated'
+          }
+        </p>
       </div>
     </div>
   )
