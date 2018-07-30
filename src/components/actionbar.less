@@ -43,6 +43,10 @@
       margin: 15px;
       cursor: pointer;
 
+      .check-mark {
+        padding-right: 5px;
+      }
+
       &:focus {
         outline: none;
       }
@@ -53,20 +57,19 @@
 
       &.incomplete {
         padding: 5px;
-
-        .check-mark {
-          padding-right: 5px;
-        }
       }
 
       &.completed {
         background-color: white;
         color: #23bf8e;
         padding: 5px;
-
-        .check-mark {
-          padding-right: 5px;
-        }
+      }
+      
+      &.inactive {
+        color: grey;
+        border-width: thin;
+        border-color: grey;
+        cursor: default;
       }
     }
   }
