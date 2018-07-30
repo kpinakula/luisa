@@ -114,7 +114,6 @@ class Workspace extends Component {
     })
   }
 
-  // todo: should first call handle save when 'mark as complete' is clicked
   handleSave () {
     if (this.state.hasChange && !this.state.markedAsComplete) {
       this.props.database
@@ -154,6 +153,9 @@ class Workspace extends Component {
 
   // todo: reverse order
   handleComplete () {
+    if (!this.state.markedAsComplete && this.state.hasChange) {
+      this.handleSave()
+    }
     this.setState(prevState => {
       return {markedAsComplete: !prevState.markedAsComplete}
     }, () => {
