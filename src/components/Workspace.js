@@ -201,6 +201,8 @@ class Workspace extends Component {
           lastSaved={this.state.lastSaved}
           translated={this.state.translated}
           resourceName={this.state.name}
+          scrollSyncEnabled={this.state.scrollSyncEnabled}
+          autoSaveEnabled={this.state.autoSaveEnabled}
           toggleScrollSync={() => this.toggleState('scrollSyncEnabled')}
           toggleAutoSave={() => this.toggleState('autoSaveEnabled')}
         />

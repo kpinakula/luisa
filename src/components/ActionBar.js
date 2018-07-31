@@ -29,7 +29,7 @@ function ActionBar (props) {
       <div className="options-bar">
         <div className="option">
           <ReactToggle
-            defaultChecked
+            checked={props.scrollSyncEnabled}
             onChange={props.toggleScrollSync}
             icons={false}
           />
@@ -37,7 +37,7 @@ function ActionBar (props) {
         </div>
         <div className="option">
           <ReactToggle
-            defaultChecked
+            checked={props.autoSaveEnabled}
             onChange={props.toggleAutoSave}
             icons={false}
           />
@@ -64,6 +64,8 @@ ActionBar.propTypes = {
   lastSaved: PropTypes.instanceOf(Date),
   translated: PropTypes.bool,
   resourceName: PropTypes.string,
+  scrollSyncEnabled: PropTypes.bool.isRequired,
+  autoSaveEnabled: PropTypes.bool.isRequired,
   toggleScrollSync: PropTypes.func.isRequired,
   toggleAutoSave: PropTypes.func.isRequired
 }
