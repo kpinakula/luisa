@@ -42,7 +42,8 @@ class Workspace extends Component {
           translatedContent,
           translated: Boolean(translatedContent),
           markedAsComplete,
-          name
+          name,
+          mode: this.getFileType(name)
         })
       })
     this.getTimeLastSaved()
@@ -61,9 +62,13 @@ class Workspace extends Component {
         }
 
         if (lineContent[charIndex] === '>') {
-          if (lineContent[charIndex + 1] && lineContent.substring(charIndex).match(/>(?=\s*[^<|\s])/)) {
-            endTagIndices.push([lineIndex, charIndex + 1])
-          } else if (lineIndex + 1 === numberOfLines && charIndex + 1 === lineContent.length) {
+          if (this.state.mode === 'htmlmixed') {
+            if (lineContent[charIndex + 1] && lineContent.substring(charIndex).match(/>(?=\s*[^<|\s])/)) {
+              endTagIndices.push([lineIndex, charIndex + 1])
+            } else if (lineIndex + 1 === numberOfLines && charIndex + 1 === lineContent.length) {
+              endTagIndices.push([lineIndex, charIndex + 1])
+            }
+          } else {
             endTagIndices.push([lineIndex, charIndex + 1])
           }
         }
@@ -101,7 +106,6 @@ class Workspace extends Component {
       }
     }
 
-    // todo: check if collapsed: true is obsolete
     if (start.line && end.line) {
       editor.markText(start, end, {collapsed: true})
     }
@@ -151,11 +155,11 @@ class Workspace extends Component {
       })
   }
 
-  getFileExtension () {
-    const fileType = this.state.name.split('.').pop()
+  getFileType (name) {
+    const fileType = name.split('.').pop()
     if (fileType === 'html') {
-      this.setState({mode: 'htmlmixed'})
-    } else this.setState({mode: fileType})
+      return 'htmlmixed'
+    } else return fileType
   }
 
   // todo: reverse order
@@ -214,7 +218,6 @@ class Workspace extends Component {
                 this.applyReadOnly(editor)
                 this.hideStyleTag(editor)
                 this.setState({originalEditor: editor})
-                this.getFileExtension()
               }}
               options={{lineWrapping: true, lineNumbers: true, readOnly: true}}
               onCursorActivity={this.highlightCurrentLine}
