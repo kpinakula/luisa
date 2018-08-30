@@ -77,11 +77,15 @@ class Workspace extends Component {
 
     openTagIndices.map((openTagPosition, index) => {
       const [ line, ch ] = openTagPosition
-      codeMirror.markText({line, ch}, {line: endTagIndices[index][0], ch: endTagIndices[index][1]}, {
-        readOnly: true,
-        className: 'markup',
-        atomic: true
-      })
+      const matchingEndTag = endTagIndices[index]
+
+      if (matchingEndTag) {
+        codeMirror.markText({line, ch}, {line: matchingEndTag[0], ch: matchingEndTag[1]}, {
+          readOnly: true,
+          className: 'markup',
+          atomic: true
+        })
+      }
     })
   }
 
